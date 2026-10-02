@@ -1,0 +1,6 @@
+# 編譯產物
+/bin/
+*.exe
+*.test
+*.out
+coverage.*
