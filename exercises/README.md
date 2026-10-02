@@ -1,6 +1,6 @@
 # 練習題
 
-共 **9 個主題、43 題**，每題都有自動化測試與參考解答。
+共 **12 個主題、62 題**。第 01～11 章的題目都附自動評分測試與參考解答；第 12 章是自由發揮的期末專案。
 
 ## 怎麼做練習
 
@@ -106,10 +106,35 @@ go test -tags solution ./exercises/...     # 用參考解答跑測試
 - [ ] 8.2 ★★ `RequireAPIKey`：中介層
 - [ ] 8.3 ★★★ `FetchTodo`：HTTP 用戶端、`context` 逾時
 
-### [09 期末專案](09-project/README.md)
+### [09 資料庫](09-database/README.md)
+- [ ] 9.1 ★★ `Migrate`：資料表版本遷移
+- [ ] 9.2 ★ `CreateBook`：INSERT、資料庫約束
+- [ ] 9.3 ★★ `GetBook`：`sql.ErrNoRows` → 領域錯誤
+- [ ] 9.4 ★★ `SearchBooks`：多列查詢、分頁、防 SQL injection
+- [ ] 9.5 ★★★ `Borrow`：交易、併發搶庫存
+- [ ] 9.6 ★★★ `Return`：交易、NULL 欄位
+- [ ] 9.7 ★★ `ActiveLoans`：JOIN
+
+### [10 網路通訊](10-network/README.md)
+- [ ] 10.1 ★★ `ServeEcho`：TCP 伺服器、每連線一個 goroutine
+- [ ] 10.2 ★★★ `Hub`：發布/訂閱、非阻塞送出、安全關閉 channel
+- [ ] 10.3 ★★★ `ChatServer`：TCP 多人聊天室
+- [ ] 10.4 ★★ `EventsHandler`：Server-Sent Events 即時推送
+- [ ] 10.5 ★★ `WriteFrame` / `ReadFrame`：二進位封包協定
+
+### [11 認證與安全](11-auth/README.md)
+- [ ] 11.1 ★ `HashPassword` / `CheckPassword`：bcrypt
+- [ ] 11.2 ★ `RandomToken`：`crypto/rand`
+- [ ] 11.3 ★★★ `Sign` / `Verify`：HMAC 簽章 token（JWT 原理）
+- [ ] 11.4 ★★ `RateLimiter`：令牌桶、可替換的時鐘
+- [ ] 11.5 ★★★ `Authenticate` / `RequireRole`：認證中介層、context
+- [ ] 11.6 ★★ `RateLimit`：限流中介層
+
+### [12 期末專案](12-project/README.md)
 - [ ] 專題 A：命令列待辦清單
 - [ ] 專題 B：短網址服務
 - [ ] 專題 C：併發網站健康檢查器
+- [ ] 專題 D：即時聊天服務（資料庫 + SSE + 認證）
 
 ## 卡關時
 

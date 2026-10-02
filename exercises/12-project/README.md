@@ -1,6 +1,8 @@
-# 練習 09：期末專案
+# 練習 12：期末專案
 
 前面的練習都是「填空題」；這一章是**從零開始**做出一個完整的程式。沒有自動測試——你要自己寫。
+
+建議順序：A → C → B → D。專題 D 需要先完成練習 09（資料庫）、10（網路通訊）、11（認證）。
 
 選一個專題（建議依序做），每個都拆成幾個里程碑，**每完成一個里程碑就 commit 一次**。
 
@@ -67,6 +69,38 @@ go run ./cmd/healthcheck -c 5 -timeout 3s urls.txt
 4. 有任何失敗時程式以結束碼 1 結束（方便放進 CI 或 cron）。
 5. 測試：用 `httptest.NewServer` 模擬快、慢、失敗的網站。
 6. **加分**：`-watch 30s` 參數每 30 秒重新檢查一次；狀態從成功變失敗時才印出通知。
+
+---
+
+## 專題 D：即時聊天服務 `cmd/chatapp`（綜合 08、09、10、11）★ 最接近真實產品
+
+做一個瀏覽器可以使用的聊天室服務：有帳號、有聊天紀錄、即時推送。
+
+```
+瀏覽器 ──POST /register、/login──► 11 密碼雜湊 + 簽發 token ──► 09 users 表
+瀏覽器 ──POST /rooms/{room}/messages (Bearer token)──► 09 messages 表 ──► 10.2 Hub.Publish
+瀏覽器 ◄──GET /rooms/{room}/events (SSE)──────────────────────────────── 10.4 Hub 訂閱
+瀏覽器 ──GET /rooms/{room}/messages?before=123──► 09 分頁查詢歷史訊息
+```
+
+**里程碑**
+1. **資料庫**：users（id, email UNIQUE, password_hash, created_at）與 messages（id, room, user_id, text, created_at）兩張表，用練習 9.1 的 migration 機制建立。
+2. **帳號**：`POST /register`、`POST /login`，套用練習 11 的密碼雜湊、token、登入限流。
+3. **發訊息**：`POST /rooms/{room}/messages` 需要登入；先寫入資料庫，**成功後**才 `Publish` 到 Hub（想想看反過來會有什麼問題）。
+4. **即時接收**：`GET /rooms/{room}/events` 用 SSE 推送新訊息。注意：瀏覽器的 `EventSource` 無法自訂標頭，token 要怎麼傳？（常見做法：查詢參數 `?token=...` 或 cookie，各有什麼風險？）
+5. **歷史訊息**：游標分頁 `?before=<message_id>&limit=50`。
+6. **前端**：一個簡單的 `index.html`（用 `embed` 套件把它打包進執行檔：`//go:embed static`）。
+7. **正式化**：設定從環境變數讀取（`PORT`、`DB_PATH`、`JWT_SECRET`）；用 `log/slog` 輸出結構化日誌；`GET /healthz` 健康檢查；Ctrl+C 優雅關機（停止接受新連線 → 關閉所有 SSE → 關閉資料庫）。
+8. **加分**：
+   - 寫一個 `Dockerfile`（多階段建置，最終映像檔用 `gcr.io/distroless/static`，只有十幾 MB）。
+   - 線上人數：每個房間目前有幾個 SSE 連線。
+   - 多台伺服器時 Hub 只在單一程序內有效，訊息不會跨機器——研究如何用 Redis Pub/Sub 或 NATS 取代 Hub。
+
+**自我檢查**
+- [ ] 所有 SQL 都用 `?` 參數
+- [ ] 每個 handler 都有 `httptest` 測試，包含 401、403、404、429 等錯誤情況
+- [ ] `go test -race ./...` 通過
+- [ ] 關閉瀏覽器分頁後，伺服器上沒有殘留的訂閱（goroutine 洩漏）
 
 ---
 

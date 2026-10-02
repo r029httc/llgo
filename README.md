@@ -14,7 +14,11 @@
    git clone https://github.com/r029httc/llgo.git
    cd llgo
    ```
-4. 編輯器建議使用 VS Code + 官方 Go 擴充套件（會自動格式化、補全、跑測試）。
+4. 下載相依套件（資料庫驅動 `modernc.org/sqlite`、`golang.org/x/crypto`）：
+   ```bash
+   go mod download
+   ```
+5. 編輯器建議使用 VS Code + 官方 Go 擴充套件（會自動格式化、補全、跑測試）。
 
 ## 第一個程式
 
@@ -35,7 +39,7 @@ llgo/
     ├── 03-structs-interfaces/      # struct、方法、介面、指標接收者
     ├── 04-errors/                  # error、包裝錯誤、errors.Is / errors.As
     └── 05-concurrency/             # goroutine、channel、WaitGroup、Mutex
-└── exercises/                      # 43 題練習（附測試與參考解答），見 exercises/README.md
+└── exercises/                      # 62 題練習（附測試與參考解答），見 exercises/README.md
 ```
 
 ## 常用指令
@@ -68,7 +72,10 @@ llgo/
 | 6 | — | [`exercises/06-testing`](exercises/06-testing) | 測試、benchmark、fuzz |
 | 7 | — | [`exercises/07-io-json`](exercises/07-io-json) | io.Reader/Writer、JSON、CSV |
 | 8 | — | [`exercises/08-http`](exercises/08-http) | HTTP 伺服器、中介層、用戶端 |
-| 9 | — | [`exercises/09-project`](exercises/09-project) | 期末專案（三選一） |
+| 9 | — | [`exercises/09-database`](exercises/09-database) | 資料庫：SQL、交易、migration、防 SQL injection |
+| 10 | — | [`exercises/10-network`](exercises/10-network) | 網路通訊：TCP、聊天室、pub/sub、SSE 即時推送 |
+| 11 | — | [`exercises/11-auth`](exercises/11-auth) | 認證與安全：bcrypt、簽章 token、限流 |
+| 12 | — | [`exercises/12-project`](exercises/12-project) | 期末專案（四選一） |
 
 **👉 從 [`exercises/README.md`](exercises/README.md) 開始做練習**：裡面有做題流程、難度說明與完整進度表。
 每一題都有詳細規格、提示、思考題與延伸挑戰，並附自動評分測試與參考解答。
