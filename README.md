@@ -35,6 +35,7 @@ llgo/
     ├── 03-structs-interfaces/      # struct、方法、介面、指標接收者
     ├── 04-errors/                  # error、包裝錯誤、errors.Is / errors.As
     └── 05-concurrency/             # goroutine、channel、WaitGroup、Mutex
+└── exercises/                      # 43 題練習（附測試與參考解答），見 exercises/README.md
 ```
 
 ## 常用指令
@@ -51,41 +52,26 @@ llgo/
 | `go fmt ./...` | 自動格式化程式碼 |
 | `go vet ./...` | 靜態檢查常見錯誤 |
 | `go doc ./lessons/01-basics` | 查看套件文件 |
+| `go test -tags solution ./exercises/...` | 用參考解答跑練習測試 |
 
-## 學習路線與練習
+## 學習路線
 
-建議的學習方式：**先讀程式碼與註解 → 跑測試 → 動手做練習 → 為練習寫測試 → 跑 `go test` 確認通過**。
+建議的學習方式：**先讀課程程式碼與註解 → 跑課程測試 → 做對應的練習題 → 全部測試通過**。
 
-### 01 基礎語法 `lessons/01-basics`
-- 重點：`:=` 與 `var`、匯出規則（大寫開頭）、多回傳值、`for range`、`switch`、可變參數
-- 練習：
-  1. 寫一個 `Max(nums ...int) int`，回傳最大值。
-  2. 寫一個 `IsPrime(n int) bool`，並用表格驅動測試驗證。
+| 順序 | 課程（範例） | 練習題 | 主題 |
+| --- | --- | --- | --- |
+| 1 | [`lessons/01-basics`](lessons/01-basics) | [`exercises/01-basics`](exercises/01-basics) | 基礎語法、字串與 rune |
+| 2 | [`lessons/02-collections`](lessons/02-collections) | [`exercises/02-collections`](exercises/02-collections) | slice、map、泛型 |
+| 3 | [`lessons/03-structs-interfaces`](lessons/03-structs-interfaces) | [`exercises/03-structs-interfaces`](exercises/03-structs-interfaces) | struct、介面、嵌入 |
+| 4 | [`lessons/04-errors`](lessons/04-errors) | [`exercises/04-errors`](exercises/04-errors) | 錯誤處理 |
+| 5 | [`lessons/05-concurrency`](lessons/05-concurrency) | [`exercises/05-concurrency`](exercises/05-concurrency) | goroutine、channel、context |
+| 6 | — | [`exercises/06-testing`](exercises/06-testing) | 測試、benchmark、fuzz |
+| 7 | — | [`exercises/07-io-json`](exercises/07-io-json) | io.Reader/Writer、JSON、CSV |
+| 8 | — | [`exercises/08-http`](exercises/08-http) | HTTP 伺服器、中介層、用戶端 |
+| 9 | — | [`exercises/09-project`](exercises/09-project) | 期末專案（三選一） |
 
-### 02 集合 `lessons/02-collections`
-- 重點：slice 的長度與容量、`append`、`make`、map 的零值、map 迭代無序、泛型
-- 練習：
-  1. 寫泛型函式 `Map[T, U any](s []T, f func(T) U) []U`。
-  2. 寫 `Unique(s []string) []string`，移除重複且保持原順序。
-
-### 03 結構與介面 `lessons/03-structs-interfaces`
-- 重點：方法接收者（值 vs 指標）、隱式實作介面、`fmt.Stringer`
-- 練習：
-  1. 新增 `Triangle` 型別並實作 `Shape`。
-  2. 想想看：如果把 `Counter.Inc` 改成值接收者 `(c Counter)`，測試會發生什麼事？為什麼？
-
-### 04 錯誤處理 `lessons/04-errors`
-- 重點：`if err != nil`、`fmt.Errorf("%w")` 包裝錯誤、`errors.Is`、`errors.As`、自訂錯誤型別
-- 練習：
-  1. 讓 `ParseAge` 拒絕大於 150 的數字，並新增哨兵錯誤 `ErrTooOld`。
-  2. 寫一個讀取檔案的函式，檔案不存在時用 `errors.Is(err, os.ErrNotExist)` 判斷。
-
-### 05 併發 `lessons/05-concurrency`
-- 重點：`go` 關鍵字、unbuffered channel、`close` 與 `range`、`sync.WaitGroup`、`sync.Mutex`、`-race`
-- 練習：
-  1. 寫一個 worker pool：固定 3 個 goroutine 處理 10 個工作。
-  2. 用 `select` 搭配 `time.After` 實作逾時。
-  3. 把 `SafeCounter` 的 `Lock` 拿掉，跑 `go test -race` 看看會發生什麼。
+**👉 從 [`exercises/README.md`](exercises/README.md) 開始做練習**：裡面有做題流程、難度說明與完整進度表。
+每一題都有詳細規格、提示、思考題與延伸挑戰，並附自動評分測試與參考解答。
 
 ## 接下來可以學什麼
 
